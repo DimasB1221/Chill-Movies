@@ -1,4 +1,4 @@
-import { tmdbAxios } from "@/src/server/lib/axios/tmdb";
+import { tmdbAxios } from "@/lib/tmdbAxios/tmdb";
 
 export const tmdbService = {
   getPopularMovies: async (page = 1) => {
