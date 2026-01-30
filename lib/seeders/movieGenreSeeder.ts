@@ -1,4 +1,4 @@
-import { supabase } from "@/src/server/lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 
 const seedMovieGenres = async (movieId: string, genreTmdbIds: number[]) => {
   const { data: genres } = await supabase

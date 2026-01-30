@@ -1,6 +1,6 @@
-import { supabase } from "@/src/server/lib/supabaseClient";
-import { tmdbService } from "@/src/server/services/tmdbServices";
-import seedMovieGenres from "@/src/server/seeders/movieGenreSeeder";
+import { supabase } from "@/lib/supabaseClient";
+import { tmdbService } from "@/services/tmdbServices";
+import seedMovieGenres from "@/lib/seeders/movieGenreSeeder";
 
 const seedMovies = async () => {
   console.log("🎬 Seeding movies...");

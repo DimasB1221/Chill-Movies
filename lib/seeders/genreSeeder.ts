@@ -1,5 +1,5 @@
-import fetchTmdbGenres from "@/src/server/services/genreServices";
-import { supabase } from "@/src/server/lib/supabaseClient";
+import fetchTmdbGenres from "@/services/genreServices";
+import { supabase } from "@/lib/supabaseClient";
 
 const seedGenres = async () => {
   const genres = await fetchTmdbGenres();

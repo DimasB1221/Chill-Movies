@@ -1,5 +1,5 @@
-import seedMovies from "./src/server/seeders/movieSeeder";
-import seedGenre from "@/src/server/seeders/genreSeeder";
+import seedMovies from "./lib/seeders/movieSeeder";
+import seedGenre from "@/lib/seeders/genreSeeder";
 
 (async () => {
   await seedGenre();
