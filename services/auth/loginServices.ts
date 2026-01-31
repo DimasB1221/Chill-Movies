@@ -7,9 +7,10 @@ interface RegisterServicesProps {
   password: string;
 }
 
+// Data yang di dapat dari useLogin di kirim ke sini
 async function signInNewUser({ email, password }: RegisterServicesProps) {
   const supabase = getSupabaseBroswerClient();
-  const { error, data } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password,
   });
@@ -17,7 +18,6 @@ async function signInNewUser({ email, password }: RegisterServicesProps) {
     console.log(error);
     return error;
   }
-  console.log({ data });
   redirect("/");
 }
 

@@ -7,7 +7,7 @@ const handleSubmitLogin = (prevState: string, formData: FormData) => {
   if (!password || !email) {
     return "Error: Email atau kata sandi salah";
   }
-
+  // Props di destructuring terlebih dahulu dan di kirim ke LoginServices
   signInNewUser({ email, password });
 
   return "Error: Kesalahan terjadi silahkan ulangi";

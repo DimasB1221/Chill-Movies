@@ -7,6 +7,7 @@ interface RegisterServicesProps {
   password: string;
 }
 
+// Data yang di dapat dari useRegister di kirim ke sini
 async function signUpNewUser({ email, password }: RegisterServicesProps) {
   const supabase = getSupabaseBroswerClient();
   const { error, data } = await supabase.auth.signUp({
@@ -17,7 +18,6 @@ async function signUpNewUser({ email, password }: RegisterServicesProps) {
     console.log(error);
     return error;
   }
-  console.log({ data });
 }
 
 export default signUpNewUser;

@@ -9,6 +9,7 @@ const handleSubmitRegister = (prevState: string, formData: FormData) => {
     return "Error: Kata sandi tidak cocok";
   }
 
+  // Props di destructuring terlebih dahulu dan di kirim ke RegisterServices
   signUpNewUser({ email, password });
 
   return "Error: Kesalahan terjadi silahkan ulangi";
