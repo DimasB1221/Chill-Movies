@@ -9,6 +9,8 @@ import { MainErrorFallback } from "@/src/components/errors/main";
 
 import { queryConfig } from "@/src/lib/reactQuery";
 
+// setup tanstack untuk info lebih lengkap cek repo react bulletproof
+
 type AppProviderProps = {
   children: React.ReactNode;
 };
