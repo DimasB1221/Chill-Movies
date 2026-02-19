@@ -10,15 +10,15 @@ export function MovieCard({ movie }: { movie: Movie }) {
   const imageSrc = movie.poster || "/placeholder-movie.jpg";
 
   return (
-    <div className="group relative flex-shrink-0 w-[150px] sm:w-[180px] md:w-[200px] cursor-pointer transition-transform hover:scale-105 rounded-lg">
-      <div className="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-800">
+    <div className="group relative flex-shrink-0 w-[150px] sm:w-[180px] md:w-[200px] py-2">
+      <div className="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-800 cursor-pointer transition-transform hover:scale-102 rounded-lg">
         <Image
           loader={movieLoader}
           src={imageSrc}
           alt={movie.title}
           fill
           className="object-cover"
-          sizes="(max-width: 640px) 150px, (max-width: 768px) 180px, 200px"
+          sizes="(max-width: 640px) 150px, (max-width: 768px) 180px, 200px rounded-lg"
         />
 
         {/* Hover overlay */}
@@ -55,14 +55,14 @@ export function MovieSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-8 md:mb-12 responsive-width mx-auto">
+    <section className="mb-8 md:mb-12 responsive-width mx-auto px-2">
       <div className="">
         <h2 className="text-white text-xl md:text-2xl font-bold mb-4">
           {title}
         </h2>
 
         <div className="overflow-x-auto scrollbar-hide  -mx-4 sm:-mx-0">
-          <div className="flex gap-4 pb-4">{children}</div>
+          <div className="flex gap-4 pb-4 ">{children}</div>
         </div>
       </div>
     </section>
