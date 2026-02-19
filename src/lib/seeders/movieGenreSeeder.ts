@@ -1,6 +1,7 @@
-import { supabase } from "@/lib/supabaseClient";
+import { createSupabaseServerClient } from "@/src/lib/supabase/supabaseServer";
 
 const seedMovieGenres = async (movieId: string, genreTmdbIds: number[]) => {
+  const supabase = await createSupabaseServerClient();
   const { data: genres } = await supabase
     .from("genres")
     .select("id, tmdb_id")

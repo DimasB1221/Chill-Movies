@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
