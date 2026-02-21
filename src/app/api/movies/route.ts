@@ -52,11 +52,15 @@ export async function POST(req: Request) {
   const supabase = await createSupabaseServerClient();
   const body = await req.json();
 
-  const { title, poster, rating } = body;
+  const { title, poster, rating, tmdb_id } = body;
+
+  // Generate random tmdb_id karna isi tmdb_id di supabase tidak boleh null
+  const generatedTmdbId =
+    tmdb_id || Math.floor(Math.random() * 1000000) + 1000000;
 
   const { data, error } = await supabase
     .from("movies")
-    .insert([{ title, poster, rating }])
+    .insert([{ title, poster, rating, tmdb_id: generatedTmdbId }])
     .select()
     .single();
 
