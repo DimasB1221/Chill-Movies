@@ -5,6 +5,7 @@ type CreateMovieParams = {
   title: string;
   poster: string;
   rating: number;
+  genres?: string[];
 };
 
 type UpdateMovieParams = {
@@ -12,6 +13,7 @@ type UpdateMovieParams = {
   title?: string;
   poster?: string;
   rating?: number;
+  genres?: string[];
 };
 
 export const getMovies = async (

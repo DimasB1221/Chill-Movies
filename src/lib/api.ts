@@ -36,6 +36,7 @@ api.interceptors.request.use(
     return config;
   },
   (error: AxiosError) => {
+    console.log(error);
     return Promise.reject(error);
   },
 );
@@ -48,6 +49,7 @@ api.interceptors.response.use(
     // Handle specific error codes if needed
     if (error.response?.status === 500) {
       console.error("Gagal fetch data - Internal Server Error");
+      console.log(error.response?.data);
     }
     return Promise.reject(error);
   },
