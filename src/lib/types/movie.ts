@@ -1,7 +1,7 @@
 // Movie data types following Interface Segregation Principle
 export interface Movie {
   id: string;
-  tmdb_id: number;
+  tmdb_id?: number;
   title: string;
   overview?: string;
   poster?: string;
@@ -9,6 +9,7 @@ export interface Movie {
   rating?: number;
   release_date?: string;
   genres?: string[];
+  genre_ids?: string[];
 }
 
 export interface MovieSection {

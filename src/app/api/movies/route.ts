@@ -19,6 +19,7 @@ export async function GET(req: Request) {
       poster,
       rating,
       movie_genres(
+        genre_id,
         genres(name)
       )
     `,
@@ -36,14 +37,14 @@ export async function GET(req: Request) {
     poster: movie.poster,
     rating: movie.rating,
     genres: movie.movie_genres.map((g: any) => g.genres.name),
+    genre_ids: movie.movie_genres.map((g: any) => g.genre_id),
   }));
 
-  // caching level http tidak akan hilang meskipun broswer di tutup karna sesuai max age nya
-  // Tanstack di cek dulu (ram) jika data sudah basi atau tidak ada maka akan cek ke cache http (disk broswer), kalau sudah habis juga maka akan ke server supabase
+  // Tidak menggunakan HTTP cache agar TanStack Query selalu mendapat data fresh saat invalidateQueries
+  // Caching sudah dikelola oleh TanStack Query di client (staleTime: 60000)
   return NextResponse.json(formatted, {
     headers: {
-      "Cache-Control":
-        "public, max-age=60, s-maxage=120, stale-while-revalidate=300",
+      "Cache-Control": "no-store",
     },
   });
 }
@@ -52,16 +53,36 @@ export async function POST(req: Request) {
   const supabase = await createSupabaseServerClient();
   const body = await req.json();
 
-  const { title, poster, rating } = body;
+  const { title, poster, rating, tmdb_id, genre_ids } = body;
+
+  // Generate random tmdb_id karna isi tmdb_id di supabase tidak boleh null
+  const generatedTmdbId =
+    tmdb_id || Math.floor(Math.random() * 1000000) + 1000000;
 
   const { data, error } = await supabase
     .from("movies")
-    .insert([{ title, poster, rating }])
+    .insert([{ title, poster, rating, tmdb_id: generatedTmdbId }])
     .select()
     .single();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  // Insert ke movie_genres junction table agar genre terhubung dengan movie
+  if (genre_ids && genre_ids.length > 0) {
+    const movieGenresPayload = genre_ids.map((genre_id: string) => ({
+      movie_id: data.id,
+      genre_id,
+    }));
+
+    const { error: genreError } = await supabase
+      .from("movie_genres")
+      .insert(movieGenresPayload);
+
+    if (genreError) {
+      console.error("Failed to link genres:", genreError.message);
+    }
   }
 
   return NextResponse.json(data);
@@ -70,7 +91,7 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
   const supabase = await createSupabaseServerClient();
   const body = await req.json();
-  const { id, title, poster, rating } = body;
+  const { id, title, poster, rating, genre_ids } = body;
 
   const { data, error } = await supabase
     .from("movies")
@@ -81,6 +102,28 @@ export async function PATCH(req: Request) {
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  // Sync movie_genres: hapus yang lama, insert yang baru
+  if (genre_ids !== undefined) {
+    // 1. Delete existing movie_genres untuk movie ini
+    await supabase.from("movie_genres").delete().eq("movie_id", id);
+
+    // 2. Insert genre baru yang dipilih
+    if (genre_ids.length > 0) {
+      const movieGenresPayload = genre_ids.map((genre_id: string) => ({
+        movie_id: id,
+        genre_id,
+      }));
+
+      const { error: genreError } = await supabase
+        .from("movie_genres")
+        .insert(movieGenresPayload);
+
+      if (genreError) {
+        console.error("Failed to sync genres:", genreError.message);
+      }
+    }
   }
 
   return NextResponse.json(data);

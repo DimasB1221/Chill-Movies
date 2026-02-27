@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "image.tmdb.org",
       },
+      {
+        protocol: "https",
+        hostname: "**", // Mengizinkan semua hostname (bisa dipersempit)
+        port: "",
+        pathname: "**", // Mengizinkan semua path
+      },
     ],
   },
 };

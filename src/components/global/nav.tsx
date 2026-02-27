@@ -12,8 +12,9 @@ import Image from "next/image";
 // Navigation links configuration - Open/Closed Principle
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "#", label: "Series" },
-  { href: "#", label: "Movies" },
+  { href: "/series", label: "Series" },
+  { href: "/movies", label: "Movies" },
+  { href: "/admin/dashboard", label: "Admin" },
 ] as const;
 
 const authLinks = [
