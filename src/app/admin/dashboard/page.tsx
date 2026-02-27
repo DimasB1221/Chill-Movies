@@ -21,11 +21,10 @@ export default function AdminDashboard() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   // Hooks
-  const {
-    data: movies = [],
-    isLoading: isLoadingMovies,
-    refetch,
-  } = useGetMovies(currentPage, 10);
+  const { data: movies = [], isLoading: isLoadingMovies } = useGetMovies(
+    currentPage,
+    10,
+  );
   const createMovieMutation = useCreateMovie();
   const updateMovieMutation = useUpdateMovie();
   const deleteMovieMutation = useDeleteMovie();
@@ -62,7 +61,6 @@ export default function AdminDashboard() {
         await createMovieMutation.mutateAsync(data);
       }
       handleCloseModals();
-      refetch(); // Refresh list
     } catch (error) {
       console.error("Error saving movie:", error);
       // TODO: Handle error (show toast)
@@ -74,7 +72,6 @@ export default function AdminDashboard() {
     try {
       await deleteMovieMutation.mutateAsync(selectedMovie.id);
       handleCloseModals();
-      refetch(); // Refresh list
     } catch (error) {
       console.error("Error deleting movie:", error);
       // TODO: Handle error (show toast)

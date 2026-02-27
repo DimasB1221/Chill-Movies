@@ -9,6 +9,7 @@ export interface Movie {
   rating?: number;
   release_date?: string;
   genres?: string[];
+  genre_ids?: string[];
 }
 
 export interface MovieSection {
